@@ -18,28 +18,28 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Query, List<Activity>>
         {
             private readonly ReactivitiesContext _context;
-            private readonly ILogger<List> _logger;
+            private readonly ILogger<Activity> _logger;
 
-            public Handler(ReactivitiesContext context, ILogger<List> logger) 
+            public Handler(ReactivitiesContext context, ILogger<Activity> logger) 
             {
                 _context = context;
                 _logger = logger;
             }
             public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
             {
-                try
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
-                        await Task.Delay(1000, cancellationToken);
-                        _logger.LogInformation($"Task {i} has completed");
-                    }
-                }
-                catch (Exception ex) when (ex is TaskCanceledException)
-                {
-                    _logger.LogInformation("List activity has been cancelled");
-                }
+                //try
+                //{
+                //    for (int i = 0; i < 10; i++)
+                //    {
+                //        cancellationToken.ThrowIfCancellationRequested();
+                //        await Task.Delay(1000, cancellationToken);
+                //        _logger.LogInformation($"On the {i} delay iteration");
+                //    }
+                //}
+                //catch (Exception)
+                //{
+                //    _logger.LogInformation("User cancelled");
+                //}
                 return await _context.Activities.ToListAsync(cancellationToken);
             }
         }

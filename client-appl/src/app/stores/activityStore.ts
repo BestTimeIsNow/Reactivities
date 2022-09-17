@@ -17,6 +17,7 @@ export class ActivityStore {
 
     getActivities = () => {
         this.loading = true;
+        console.log('getting activities')
         agent.Activities.list().then(action("fetchSuccess", (response) => {
             response.forEach(activity => {
                 activity.date = activity.date.split("T")[0];

@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
 import { ActivityStore } from '../../../app/stores/activityStore';
@@ -29,7 +29,7 @@ function ActivityForm() {
     }
 
     return (
-        <Segment clearing>
+        <Segment clearing> 
             <Form>
                 <Form.Input placeholder="Title" value={activity.title} name="title" onChange={handleFieldChange} />
                 <Form.TextArea placeholder="Description" value={activity.description} name="description" onChange={handleFieldChange} />

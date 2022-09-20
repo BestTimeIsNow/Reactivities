@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
+
 export default observer(function ActivityList() {
     const { activityStore } = useStore();
     const { deleteActivity, activitiesByDate, loading } = activityStore;
 
     const [target, setTarget] = useState('');
+
 
     function handleDelete(id: string) {
         setTarget(id);
@@ -46,3 +48,4 @@ export default observer(function ActivityList() {
         </Segment>
     )
 })
+

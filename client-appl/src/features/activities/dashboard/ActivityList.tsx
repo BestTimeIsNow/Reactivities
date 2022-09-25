@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
 export default observer(function ActivityList() {
     const { activityStore } = useStore();
-    const { deleteActivity, activitiesByDate, loading } = activityStore;
+    const { deleteActivity, activitiesByDate, loading, loadingInitial, setLoadingInitial } = activityStore;
 
     const [target, setTarget] = useState('');
 
@@ -14,6 +14,8 @@ export default observer(function ActivityList() {
         setTarget(id);
         deleteActivity(id);
     }
+
+    const [counter, setCounter] = useState(0);
 
     return (
         <Segment>

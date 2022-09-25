@@ -1,17 +1,22 @@
 import { observer } from 'mobx-react-lite';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Redirect, useParams, useHistory, Link } from 'react-router-dom';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
 import { useStore } from '../../../app/stores/store';
+import { v4 as UUID } from 'uuid';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 
 function ActivityForm() {
 
     const { activityStore } = useStore();
-    const { createActivity, editActivity } = activityStore;
-    const selectedActivity: Activity | undefined = activityStore.selectedActivity;
+    const { createActivity, editActivity, loadActivity, loading, loadingOther  } = activityStore;
+    const { id } = useParams<{ id: string }>();
+    const history = useHistory();
+        
 
-    const initialState = selectedActivity ?? {
+    const [activity, setActivity] = useState({
         "id": '',
         "title": '',
         "category": '',
@@ -19,9 +24,26 @@ function ActivityForm() {
         "date": '',
         "city": '',
         "venue": ''
-    }
+    });
 
-    const [activity, setActivity] = useState(initialState);
+    useEffect(() => {
+        if (id) {
+            loadActivity(id).then((activity) => setActivity(activity!));
+        } else {
+            if (activity.id !== '') {
+                setActivity({
+                    "id": '',
+                    "title": '',
+                    "category": '',
+                    "description": '',
+                    "date": '',
+                    "city": '',
+                    "venue": ''
+                })
+            }
+        }
+    }, [id, loadActivity])
+
 
     function handleFieldChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { value, name } = event.target;
@@ -29,8 +51,15 @@ function ActivityForm() {
     }
 
     function submitActivity(id?: string) {
-        id ? editActivity(activity) : createActivity(activity);
+        if (activity.id === '') {
+            activity.id = UUID();
+            createActivity(activity).then(() => history.push(`/activities/${activity.id}`))
+        } else {
+            editActivity(activity).then(() => history.push(`/activities/${activity.id}`))
+        }
     }
+
+    if (loadingOther) return <LoadingComponent />
 
     return (
         <Segment clearing>
@@ -41,8 +70,8 @@ function ActivityForm() {
                 <Form.Input placeholder="Date" value={activity.date} name="date" onChange={handleFieldChange} />
                 <Form.Input placeholder="City" value={activity.city} name="city" onChange={handleFieldChange} />
                 <Form.Input placeholder="Venue" value={activity.venue} name="venue" onChange={handleFieldChange} />
-                <Button onClick={() => submitActivity(activity.id)} floated="right" positive content="Submit" type="submit" />
-                <Button floated="right" type="button" content="Cancel" />
+                <Button loading={loading} onClick={() => submitActivity(activity.id)} floated="right" positive content="Submit" type="submit" />
+                <Button as={Link} to='/activities' floated="right" type="button" content="Cancel" />
             </Form>
         </Segment>    
     )

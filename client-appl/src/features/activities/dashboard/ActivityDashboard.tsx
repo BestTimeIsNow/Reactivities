@@ -7,9 +7,10 @@ import ActivityList from './ActivityList';
 
 export default observer(function ActivityDashboard() {
     const { activityStore } = useStore();
-    const { loadingInitial, activityRegistry } = activityStore;
+    const { loadingInitial, activityRegistry, groupedActivities } = activityStore;
 
     useEffect(() => {
+        if (groupedActivities.length > 0) console.log('grouped length > 0')
         if (activityRegistry.size <= 1) {
             activityStore.loadActivities();
         }

@@ -22,12 +22,13 @@ export default observer(function ActivityList() {
             <Item.Group divided>
                 {activitiesByDate.map(activity => (
                     <Item key={activity.id}>
+                        <Item.Image src={`/assets/categoryImages/${activity?.category}.jpg`} />
                         <Item.Content>
                             <Item.Header as='a'>{activity.title}</Item.Header>
                             <Item.Meta>{activity.date}</Item.Meta>
                             <Item.Description>
                                 <div>{activity.description}</div>
-                                <div>{activity.city}, {activity.venue}</div>
+                                <div>{activity.city}, {activity.venue}, {activitiesByDate[2].category}</div>
                             </Item.Description>
                             <Item.Extra>
                                 <Button as={Link} to={`/activities/${activity.id}`} floated='right' color='blue' content='View' />

@@ -20,16 +20,15 @@ export default class ActivityStore {
 
     get groupedActivities() {
         return Object.entries(
-            this.activitiesByDate.reduce((x, activity) => {
-                let date = activity.date;
-                console.log('date is' + date)
-                console.log('b4 pop x date event title is ' + x[date])
-                x[date] = x[date] ? [...x[date], activity] : [activity]
-                console.log('x date event title is ' + x[date][0].title)
-                return x
-            }, {} as { [key:string]: Activity[]})
+            this.activitiesByDate.reduce((keyDateValueActivitiesObject, activity) => {
+                const date = activity.date;
+                keyDateValueActivitiesObject[date] = keyDateValueActivitiesObject[date] ?
+                    [...keyDateValueActivitiesObject[date], activity] : [activity]
+                return keyDateValueActivitiesObject
+            }, {} as {[key:string]:Activity[]} )
         )
     }
+
 
     loadActivities = async () => {
         //this.cancelSelectedActivity();

@@ -20,12 +20,11 @@ export default class ActivityStore {
 
     get groupedActivities() {
         return Object.entries(
-            this.activitiesByDate.reduce((keyDateValueActivitiesObject, activity) => {
+            this.activitiesByDate.reduce((returnObject, activity) => {
                 const date = activity.date;
-                keyDateValueActivitiesObject[date] = keyDateValueActivitiesObject[date] ?
-                    [...keyDateValueActivitiesObject[date], activity] : [activity]
-                return keyDateValueActivitiesObject
-            }, {} as {[key:string]:Activity[]} )
+                returnObject[date] = returnObject[date] ? [...returnObject[date], activity] : [activity]
+                return returnObject;
+            }, {} as {[key:string]:Activity[]})
         )
     }
 

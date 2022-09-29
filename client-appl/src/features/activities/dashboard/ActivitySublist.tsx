@@ -1,24 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Icon, Item, Label, Segment } from 'semantic-ui-react';
+import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
-import { useStore } from '../../../app/stores/store';
 
 interface Props {
     activity: Activity
 }
 
 function ActivitySublist({ activity }: Props) {
-
-    const { activityStore } = useStore();
-    const { loading, deleteActivity } = activityStore;
-
-    const [target, setTarget] = useState('');
-
-    function handleDelete(id: string) {
-        setTarget(id);
-        deleteActivity(id);
-    }
 
     return (
         <Segment.Group>
@@ -39,12 +28,12 @@ function ActivitySublist({ activity }: Props) {
                     <Icon name="clock outline" />{activity.date}  <Icon name="map marker alternate" />{activity.venue}, {activity.city}
                 </span>
             </Segment>
-            <Segment secondary>
+            <Segment secondary >
                 Attendees
             </Segment>
             <Segment clearing>
                 <span>{activity.description}</span>
-                <Button as="Link" to="/activities/{activity.id}" color="teal" floated="right" content="View" />
+                <Button as={Link} to={`/activities/${activity.id}`} color="teal" floated="right" content="View" />
             </Segment>
         </Segment.Group>
     );

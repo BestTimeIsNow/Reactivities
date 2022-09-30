@@ -13,7 +13,16 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities(CancellationToken token)
         {
-            return await Mediator.Send(new List.Query(), token);
+            var temp = await Mediator!.Send(new List.Query(), token);
+            if (temp != null)
+            {
+                return temp;
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         [HttpGet("{id}")]

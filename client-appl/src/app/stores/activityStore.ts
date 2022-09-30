@@ -6,7 +6,7 @@ export default class ActivityStore {
     activityRegistry = new Map<string, Activity>();
     selectedActivity: Activity | undefined = undefined;
     loading = false;  // button loading
-    loadingOther = false;   // single activity refresh loading
+    loadingOther = true;   // single activity refresh loading
     loadingInitial = true;  // activities loading
 
     constructor() {
@@ -36,7 +36,7 @@ export default class ActivityStore {
             await agent.Activities.list().then((activities) => {
                 this.setLoadingInitial(false);
                 activities.forEach(activity => {
-                    this.setActivity(activity);
+                    this.setActivityRegistry(activity);
                 })
                 return activities;
             });
@@ -50,12 +50,12 @@ export default class ActivityStore {
         let activity = this.activityRegistry.get(id);
         if (activity) {
             this.selectActivity(id);
+            this.setLoadingOther(false)
             return activity;
         } else {
             try {
-                this.setLoadingOther(true);
                 activity = await agent.Activities.detail(id);
-                this.setActivity(activity);
+                this.setActivityRegistry(activity);
                 this.selectActivity(id)
                 this.setLoadingOther(false);
                 return activity;
@@ -66,7 +66,7 @@ export default class ActivityStore {
         }
     }
 
-    setActivity = (activity: Activity) => {
+    setActivityRegistry = (activity: Activity) => {
         activity.date = activity.date.split("T")[0];
         this.activityRegistry.set(activity.id, activity);
     }
@@ -83,7 +83,7 @@ export default class ActivityStore {
         this.setLoading(true);
         try {
             await agent.Activities.create(activity);
-            this.setActivity(activity);
+            this.setActivityRegistry(activity);
         } catch (error) {
             console.log(error);
         } finally {
@@ -98,7 +98,7 @@ export default class ActivityStore {
         this.setLoading(true);
         try {
             await agent.Activities.edit(activity.id, activity);
-            this.setActivity(activity);
+            this.setActivityRegistry(activity);
         } catch (error) {
             console.log(error)
         } finally {

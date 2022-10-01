@@ -17,7 +17,6 @@ export default observer (function ActivityDetails() {
 
     useEffect(() => {
         if (id) loadActivity(id)
-        console.log(id)
     }, [id, loadActivity])
 
     if (loadingOther) return <LoadingComponent />

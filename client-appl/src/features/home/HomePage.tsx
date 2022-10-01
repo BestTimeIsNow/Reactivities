@@ -1,15 +1,30 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container } from 'semantic-ui-react';
-import { useStore } from '../../app/stores/store';
+import { Button, Container, Header, Image, Segment } from 'semantic-ui-react';
 
-export default observer( function HomePage() {
+export default observer (function HomePage() {
 
     return (
-        <Container style={{marginTop:'7em'} }>
-            <h1>HomePage</h1>
-            <h3>Go to <Link to='/activities'>Activities</Link></h3>
-        </Container>
-        )
+        <Segment inverted textAlign='center' className='masthead'>
+            <Container text>
+                <Header inverted as='h1'>
+                    <Image
+                        src='/assets/logo.png'
+                        size='massive'
+                        style={{marginBottom:'20px'}}
+                    />
+                    Reactivities
+                </Header>
+                <Header inverted as='h2' content='Welcome to Reactivities'/>
+                <Button
+                    as={Link}
+                    to='/activities'
+                    size='huge'
+                    content='Take me to the Activities!'
+                    inverted
+                />
+            </Container>
+        </Segment>
+    )
+
 })

@@ -15,8 +15,8 @@ body {
 }
 
 .masthead {
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
     background-image: linear-gradient(
         135deg,
         rgb(25,45,130) 0%,
@@ -27,6 +27,6 @@ body {
 }
 
 .masthead h1.ui.inverted.header {
-    font-size:4em;
-    font-weight:normal;
+    font-size: 4em;
+    font-weight: normal;
 }

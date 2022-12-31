@@ -22,7 +22,7 @@ export default class ActivityStore {
         return Object.entries(
             this.activitiesByDate.reduce((returnObject, activity) => {
                 const date = activity.date;
-                returnObject[date] = returnObject[date] ? [...returnObject[date], activity] : [activity]
+                (returnObject[date] ??= [activity]).push(activity);
                 return returnObject;
             }, {} as {[key:string]:Activity[]})
         )

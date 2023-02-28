@@ -9,6 +9,7 @@ export default observer(function ActivityList() {
 
     return (
         <>
+            {groupedActivities.length}
             {groupedActivities.map(([date, activities]) =>
                 <Fragment key={date}>
                     <h4 style={{ color: "teal" }} >{date}</h4>

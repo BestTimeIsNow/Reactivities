@@ -11,7 +11,7 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 function ActivityForm() {
 
     const { activityStore } = useStore();
-    const { createActivity, editActivity, loadActivity, loading, loadingOther  } = activityStore;
+    const { createActivity, editActivity, loadActivity, loading, loadingOther, noActivityToLoad } = activityStore;
     const { id } = useParams<{ id: string }>();
     const history = useHistory();
         
@@ -28,19 +28,22 @@ function ActivityForm() {
 
     useEffect(() => {
         if (id) {
+            console.log('in id of ' + id)
             loadActivity(id).then((activity) => setActivity(activity!));
         } else {
-            if (activity.id !== '') {
-                setActivity({
-                    "id": '',
-                    "title": '',
-                    "category": '',
-                    "description": '',
-                    "date": '',
-                    "city": '',
-                    "venue": ''
-                })
-            }
+            //if (activity.id !== '') {
+            //    console.log('in activity.id')
+            //    setActivity({
+            //        "id": '',
+            //        "title": '',
+            //        "category": '',
+            //        "description": '',
+            //        "date": '',
+            //        "city": '',
+            //        "venue": ''
+            //    })
+            //};
+            noActivityToLoad();
         }
     }, [id, loadActivity])
 

@@ -19,23 +19,28 @@ export default class ActivityStore {
     }
 
     get groupedActivities() {
+        var i = 1;
         return Object.entries(
             this.activitiesByDate.reduce((returnObject, activity) => {
+                i++;
                 const date = activity.date;
-                (returnObject[date] ??= [activity]).push(activity);
+                returnObject[date] ??= [activity];
+                if (returnObject[date] == null) returnObject[date].push(activity);
                 return returnObject;
             }, {} as {[key:string]:Activity[]})
         )
     }
 
-
+    noActivityToLoad = async() => this.setLoadingOther(false);
     loadActivities = async () => {
         //this.cancelSelectedActivity();
         
         try {
             await agent.Activities.list().then((activities) => {
                 this.setLoadingInitial(false);
+                var i = 1;
                 activities.forEach(activity => {
+                    i++;
                     this.setActivityRegistry(activity);
                 })
                 return activities;

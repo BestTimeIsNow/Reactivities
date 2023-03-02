@@ -1,7 +1,7 @@
 import Axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { Activity } from '../models/activity';
-import history from '../layout/History'
+import { router } from '../routes/Router';
 
 
 const sleep = (delay: number) => {
@@ -14,7 +14,7 @@ const sleep = (delay: number) => {
 Axios.interceptors.response.use(async response => {
     await sleep(1000);
     return response
-}, (error: AxiosError) => {
+}, (error:any) => {
     const { data, status } = error.response!;
     switch (status) {
         case 400:
@@ -27,7 +27,7 @@ Axios.interceptors.response.use(async response => {
             toast.error('forbidden');
             break;
         case 404:
-            history.push('/not-found');
+            router.navigate('/not-found');
             break;
         case 500:
             toast.error('server-error')

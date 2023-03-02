@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Redirect, useParams, useHistory, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/models/activity';
 import { useStore } from '../../../app/stores/store';
@@ -13,7 +13,7 @@ function ActivityForm() {
     const { activityStore } = useStore();
     const { createActivity, editActivity, loadActivity, loading, loadingOther, noActivityToLoad } = activityStore;
     const { id } = useParams<{ id: string }>();
-    const history = useHistory();
+    const navigate = useNavigate();
         
 
     const [activity, setActivity] = useState({
@@ -56,9 +56,9 @@ function ActivityForm() {
     function submitActivity(id?: string) {
         if (activity.id === '') {
             activity.id = UUID();
-            createActivity(activity).then(() => history.push(`/activities/${activity.id}`))
+            createActivity(activity).then(() => navigate(`/activities/${activity.id}`))
         } else {
-            editActivity(activity).then(() => history.push(`/activities/${activity.id}`))
+            editActivity(activity).then(() => navigate(`/activities/${activity.id}`))
         }
     }
 
